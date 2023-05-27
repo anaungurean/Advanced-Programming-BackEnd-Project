@@ -12,19 +12,24 @@ public class Answer {
     private Long questionId;
     @Column
     private String answerText;
+    @Column
+    private Long correct;
+
 
     public Answer() {
     }
 
-    public Answer(Long id, Long questionId, String answerText) {
+    public Answer(Long id, Long questionId, String answerText, Long correct) {
         this.id = id;
         this.questionId = questionId;
         this.answerText = answerText;
+        this.correct = correct;
     }
 
-    public Answer(Long questionId, String answerText) {
+    public Answer(Long questionId, String answerText, Long correct) {
         this.questionId = questionId;
         this.answerText = answerText;
+        this.correct = correct;
     }
 
     public Long getId() {
@@ -51,12 +56,21 @@ public class Answer {
         this.answerText = answerText;
     }
 
+    public Long getCorrect() {
+        return correct;
+    }
+
+    public void setCorrect(Long correct) {
+        this.correct = correct;
+    }
+
     @Override
     public String toString() {
         return "Answer{" +
                 "id=" + id +
                 ", questionId=" + questionId +
                 ", answerText='" + answerText + '\'' +
+                ", correct=" + correct +
                 '}';
     }
 }
