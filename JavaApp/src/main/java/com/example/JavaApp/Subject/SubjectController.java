@@ -10,6 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/subjects")
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class SubjectController {
 
     private final SubjectService subjectService;
@@ -19,9 +21,14 @@ public class SubjectController {
     }
     @GetMapping
     @Operation(summary = "List the subjects", description = "Used to list the subjects to select the subject for which will be taken the quiz")
+//    public List<Subject> getAllSubjects() {
+//          return subjectService.getAllSubjects();
+//    } // pt java
     public List<Subject> getAllSubjects() {
-          return subjectService.getAllSubjects();
-    }
+        return subjectService.getAllSubjects();
+    } //de eliminat
+
+
     @PostMapping("/create")
     @Operation(summary = "Add a new subject" )
     public ResponseEntity<String> createSubject(@RequestBody Subject subject) {
