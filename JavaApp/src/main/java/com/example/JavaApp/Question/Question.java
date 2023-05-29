@@ -1,35 +1,29 @@
 package com.example.JavaApp.Question;
-
+import com.example.JavaApp.Subject.Subject;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="questions")
-
-
+@Table(name = "questions")
 public class Question {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Long subjectId;
-    @Column
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
+
+    @Column(name = "question_text")
     private String questionText;
-    @Column
-    private Long questionDifficulty;
+
+    @Column(name = "question_difficulty")
+    private int questionDifficulty;
 
     public Question() {
     }
 
-    public Question(Long id, Long subjectId, String questionText, Long questionDifficulty) {
-        this.id = id;
-        this.subjectId = subjectId;
-        this.questionText = questionText;
-        this.questionDifficulty = questionDifficulty;
-    }
-
-    public Question(Long subjectId, String questionText, Long questionDifficulty) {
-        this.subjectId = subjectId;
+    public Question(Subject subject, String questionText, int questionDifficulty) {
+        this.subject = subject;
         this.questionText = questionText;
         this.questionDifficulty = questionDifficulty;
     }
@@ -42,12 +36,12 @@ public class Question {
         this.id = id;
     }
 
-    public Long getSubjectId() {
-        return subjectId;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public String getQuestionText() {
@@ -58,11 +52,11 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public Long getQuestionDifficulty() {
+    public int getQuestionDifficulty() {
         return questionDifficulty;
     }
 
-    public void setQuestionDifficulty(Long questionDifficulty) {
+    public void setQuestionDifficulty(int questionDifficulty) {
         this.questionDifficulty = questionDifficulty;
     }
 
@@ -70,7 +64,7 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "id=" + id +
-                ", subjectId=" + subjectId +
+                ", subject=" + subject +
                 ", questionText='" + questionText + '\'' +
                 ", questionDifficulty=" + questionDifficulty +
                 '}';

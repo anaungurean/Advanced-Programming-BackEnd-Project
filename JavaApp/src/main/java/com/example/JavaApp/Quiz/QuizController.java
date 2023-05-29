@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.JavaApp.Quiz.Quiz;
-import com.example.JavaApp.Quiz.QuizRepository;
 
 import java.util.List;
 
@@ -13,57 +11,49 @@ import java.util.List;
 @RequestMapping("/quizzes")
 public class QuizController {
 
+    private final QuizService quizService;
+
     @Autowired
-    private QuizRepository quizRepository;
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Quiz>> getAllQuizzes() {
-        List<Quiz> quizzes = quizRepository.findAll();
+        List<Quiz> quizzes = quizService.getAllQuizzes();
         return new ResponseEntity<>(quizzes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
-        Quiz quiz = quizRepository.findById(id).orElse(null);
-        if (quiz != null) {
-            return new ResponseEntity<>(quiz, HttpStatus.OK);
-        } else {
+        Quiz quiz = quizService.getQuizById(id);
+        if (quiz == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(quiz, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz quiz) {
-        Quiz newQuiz = quizRepository.save(quiz);
-        return new ResponseEntity<>(newQuiz, HttpStatus.CREATED);
+        Quiz createdQuiz = quizService.createQuiz(quiz);
+        return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) {
-        Quiz existingQuiz = quizRepository.findById(id).orElse(null);
-        if (existingQuiz != null) {
-            // Update the properties of the existing quiz object
-            existingQuiz.setUserId(quiz.getUserId());
-            existingQuiz.setSubjectId(quiz.getSubjectId());
-            existingQuiz.setDifficulty(quiz.getDifficulty());
-            existingQuiz.setScoreQuiz(quiz.getScoreQuiz());
-
-            Quiz updatedQuiz = quizRepository.save(existingQuiz);
-            return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
-        } else {
+        Quiz updatedQuiz = quizService.updateQuiz(id, quiz);
+        if (updatedQuiz == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
-        Quiz quiz = quizRepository.findById(id).orElse(null);
-        if (quiz != null) {
-            quizRepository.delete(quiz);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
+        boolean deleted = quizService.deleteQuiz(id);
+        if (!deleted) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-

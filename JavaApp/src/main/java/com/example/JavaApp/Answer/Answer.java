@@ -1,46 +1,35 @@
 package com.example.JavaApp.Answer;
 
+import com.example.JavaApp.Question.Question;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="answers")
+@Table(name = "answers")
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Long questionId;
-    @Column
-    private String answerText;
-    @Column
-    private Long correct;
 
-    @Column
-    private Long chosen;
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
+
+    @Column(name = "answer_text")
+    private String answerText;
+
+    @Column(name = "correct")
+    private boolean correct;
+
+    @Column(name = "chosen")
+    private boolean chosen;
 
     public Answer() {
     }
 
-    public Answer(Long id, Long questionId, String answerText, Long correct, Long chosen) {
-        this.id = id;
-        this.questionId = questionId;
+    public Answer(Question question, String answerText, boolean correct, boolean chosen) {
+        this.question = question;
         this.answerText = answerText;
         this.correct = correct;
-        this.chosen = chosen;
-    }
-
-    public Answer(Long questionId, String answerText, Long correct, Long chosen) {
-        this.questionId = questionId;
-        this.answerText = answerText;
-        this.correct = correct;
-        this.chosen = chosen;
-    }
-
-    public Long getChosen() {
-        return chosen;
-    }
-
-    public void setChosen(Long chosen) {
         this.chosen = chosen;
     }
 
@@ -52,12 +41,12 @@ public class Answer {
         this.id = id;
     }
 
-    public Long getQuestionId() {
-        return questionId;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public String getAnswerText() {
@@ -68,21 +57,30 @@ public class Answer {
         this.answerText = answerText;
     }
 
-    public Long getCorrect() {
+    public boolean isCorrect() {
         return correct;
     }
 
-    public void setCorrect(Long correct) {
+    public void setCorrect(boolean correct) {
         this.correct = correct;
+    }
+
+    public boolean isChosen() {
+        return chosen;
+    }
+
+    public void setChosen(boolean chosen) {
+        this.chosen = chosen;
     }
 
     @Override
     public String toString() {
         return "Answer{" +
                 "id=" + id +
-                ", questionId=" + questionId +
+                ", question=" + question +
                 ", answerText='" + answerText + '\'' +
                 ", correct=" + correct +
+                ", chosen=" + chosen +
                 '}';
     }
 }
