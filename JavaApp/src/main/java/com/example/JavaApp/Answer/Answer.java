@@ -15,21 +15,33 @@ public class Answer {
     @Column
     private Long correct;
 
+    @Column
+    private Long chosen;
 
     public Answer() {
     }
 
-    public Answer(Long id, Long questionId, String answerText, Long correct) {
+    public Answer(Long id, Long questionId, String answerText, Long correct, Long chosen) {
         this.id = id;
         this.questionId = questionId;
         this.answerText = answerText;
         this.correct = correct;
+        this.chosen = chosen;
     }
 
-    public Answer(Long questionId, String answerText, Long correct) {
+    public Answer(Long questionId, String answerText, Long correct, Long chosen) {
         this.questionId = questionId;
         this.answerText = answerText;
         this.correct = correct;
+        this.chosen = chosen;
+    }
+
+    public Long getChosen() {
+        return chosen;
+    }
+
+    public void setChosen(Long chosen) {
+        this.chosen = chosen;
     }
 
     public Long getId() {

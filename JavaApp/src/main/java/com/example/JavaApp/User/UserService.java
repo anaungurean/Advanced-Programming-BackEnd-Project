@@ -16,12 +16,12 @@ public class UserService {
     public void addNewUser(User user) {
          String email = user.getEmail();
         boolean emailExists = userRepository.existsByEmail(email);
-
+        System.out.println(emailExists);
         if (emailExists) {
             throw new IllegalArgumentException("Email already exists");
         }
-
-         userRepository.save(user);
+         //userRepository.save(user); //pentru java
+        userRepository.signUp(user.getLastName(), user.getFirstName(), email, user.getPassword()); //de elim
     }
 
     public User getUserByEmail(String email) {
@@ -41,5 +41,11 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public int logIn(String email, String password) {
+         return  userRepository.signIn(email, password);
+        //de eliminat
+
     }
 }
