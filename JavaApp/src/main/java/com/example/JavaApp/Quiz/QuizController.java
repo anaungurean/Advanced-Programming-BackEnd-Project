@@ -47,6 +47,15 @@ public class QuizController {
         }
         return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
     }
+//    @GetMapping("/{userId}")
+//    public ResponseEntity<Quiz> getQuizDetails(@PathVariable Long userId) {
+//        Quiz quiz = quizService.getQuizByUserId(userId);
+//        if (quiz == null) {
+//            // Return an appropriate response when quiz is not found for the user ID
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(quiz);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {

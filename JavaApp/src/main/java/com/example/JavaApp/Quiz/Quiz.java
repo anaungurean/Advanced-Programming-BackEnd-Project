@@ -22,6 +22,11 @@ public class Quiz {
     public Quiz() {
     }
 
+    public Quiz(Long id, int totalScore) {
+        this.id = id;
+        this.totalScore = totalScore;
+    }
+
     public Quiz(Long idUser, int totalScore, List<QuizQuestion> quizQuestions) {
         this.idUser = idUser;
         this.totalScore = totalScore;

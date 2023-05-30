@@ -41,4 +41,8 @@ public class QuizService {
         }
         return false;
     }
+
+//    public Quiz getQuizByUserId(Long userId) {
+//        return quizRepository.findByUserId(userId);
+//    }
 }
