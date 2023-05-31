@@ -20,7 +20,7 @@ public class QuizQuestion {
     private Long questionId;
 
     @Column(name = "score")
-    private Long score;
+    private Double  score;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "quiz_question_id")
     private List<QuizAnswer> quizAnswers;
@@ -28,14 +28,14 @@ public class QuizQuestion {
     public QuizQuestion() {
     }
 
-    public QuizQuestion(Long id, Quiz quizId, Long questionId , Long score) {
+    public QuizQuestion(Long id, Quiz quizId, Long questionId , Double  score) {
         this.id = id;
         this.quizId = quizId;
         this.questionId = questionId;
         this.score = score;
     }
 
-    public QuizQuestion(Quiz quizId, Long questionId, Long score) {
+    public QuizQuestion(Quiz quizId, Long questionId, Double  score) {
         this.quizId = quizId;
         this.questionId = questionId;
         this.score = score;
@@ -67,11 +67,11 @@ public class QuizQuestion {
         this.questionId = questionId;
     }
 
-    public Long getScore() {
+    public Double  getScore() {
         return score;
     }
 
-    public void setScore(Long score) {
+    public void setScore(Double  score) {
         this.score = score;
     }
     public List<QuizAnswer> getQuizAnswers() {

@@ -48,25 +48,29 @@ public class QuizController {
             List<QuestionWithGivenAnswers> questionWithAnswers = quiz.getQuestionWithAnswers();
 
             Quiz newQuiz = new Quiz();
-            newQuiz.setTotalScore((int) score);
+            newQuiz.setTotalScore((double) score);
+            newQuiz.setDifficulty(quiz.getDifficult());
+            newQuiz.setSubjectId(quiz.getIdSubject());
 
             List<QuizQuestion> quizQuestions = new ArrayList<>();
             for (QuestionWithGivenAnswers question : questionWithAnswers) {
                 QuizQuestion quizQuestion = new QuizQuestion();
-                quizQuestion.setQuestionId(question.getQuestion().getId());
-                quizQuestion.setScore(question.getScore());
+                quizQuestion.setQuestionId(question.getQuestion().getIdQuestion());
+                quizQuestion.setScore(question.getQuestion().getScore());
                 quizQuestion.setQuizId(newQuiz);
                 quizQuestions.add(quizQuestion);
 
                 List<QuizAnswer> quizAnswers = new ArrayList<>(); // Create a list of QuizAnswer objects
                 for (QuizAnswerDTO answer : question.getAnswers()) {
                     QuizAnswer quizAnswer = new QuizAnswer();
-                    quizAnswer.setQuizQuestion(quizQuestion);
-                    quizAnswer.setAnswerId(answer.getId());
+//                    quizAnswer.setQuizQuestion(quizQuestion);
+                    quizAnswer.setAnswerId(answer.getIdAnswer());
                     quizAnswers.add(quizAnswer);
                 }
                 quizQuestion.setQuizAnswers(quizAnswers);
             }
+
+
             newQuiz.setQuizQuestions(quizQuestions);
 
             quizService.saveQuiz(newQuiz);

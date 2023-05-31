@@ -1,6 +1,7 @@
 package com.example.JavaApp.QuizAnswer;
 
 import com.example.JavaApp.QuizQuestion.QuizQuestion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity

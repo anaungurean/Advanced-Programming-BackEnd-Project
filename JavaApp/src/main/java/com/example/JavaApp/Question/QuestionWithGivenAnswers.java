@@ -17,5 +17,5 @@ import lombok.Setter;
 public class QuestionWithGivenAnswers {
     private QuestionDTO question;
     private List<QuizAnswerDTO> answers;
-    private Long score;
+
 }

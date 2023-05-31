@@ -1,36 +1,34 @@
 package com.example.JavaApp.Question;
 
-import com.example.JavaApp.Subject.Subject;
-
 public class QuestionDTO {
-    private Long id;
-    private Long idSubject;
+    private Long idQuestion;
+    private Double score;
 
     public QuestionDTO() {
     }
 
-    public QuestionDTO(Long idSubject) {
-        this.idSubject = idSubject;
+    public QuestionDTO(Long idQuestion, Double score) {
+        this.idQuestion = idQuestion;
+        this.score = score;
     }
 
-    public QuestionDTO(Long id, Long idSubject) {
-        this.id = id;
-        this.idSubject = idSubject;
+    public QuestionDTO(Double score) {
+        this.score = score;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdQuestion() {
+        return idQuestion;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdQuestion(Long idQuestion) {
+        this.idQuestion = idQuestion;
     }
 
-    public Long getIdSubject() {
-        return idSubject;
+    public Double getScore() {
+        return score;
     }
 
-    public void setIdSubject(Long idSubject) {
-        this.idSubject = idSubject;
+    public void setScore(Double score) {
+        this.score = score;
     }
 }

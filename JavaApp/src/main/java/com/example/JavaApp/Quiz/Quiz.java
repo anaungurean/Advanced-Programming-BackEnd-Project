@@ -15,7 +15,13 @@ public class Quiz {
     private Long userId;
 
     @Column(name = "total_score")
-    private Integer totalScore;
+    private Double totalScore;
+
+
+    @Column(name = "subject_id")
+    private Long subjectId;
+    @Column(name = "difficulty")
+    private Long difficulty;
     @JsonIgnore
     @OneToMany(mappedBy = "quizId", cascade = CascadeType.ALL)
     private List<QuizQuestion> quizQuestions;
@@ -24,15 +30,21 @@ public class Quiz {
     public Quiz() {
     }
 
-    public Quiz(Long id, Long userId, Integer totalScore) {
+    public Quiz(Long userId, Double totalScore, Long subjectId, Long difficulty, List<QuizQuestion> quizQuestions) {
+        this.userId = userId;
+        this.totalScore = totalScore;
+        this.subjectId = subjectId;
+        this.difficulty = difficulty;
+        this.quizQuestions = quizQuestions;
+    }
+
+    public Quiz(Long id, Long userId, Double totalScore, Long subjectId, Long difficulty, List<QuizQuestion> quizQuestions) {
         this.id = id;
         this.userId = userId;
         this.totalScore = totalScore;
-    }
-
-    public Quiz(Long userId, Integer totalScore) {
-        this.userId = userId;
-        this.totalScore = totalScore;
+        this.subjectId = subjectId;
+        this.difficulty = difficulty;
+        this.quizQuestions = quizQuestions;
     }
 
     public List<QuizQuestion> getQuizQuestions() {
@@ -59,11 +71,27 @@ public class Quiz {
         this.userId = userId;
     }
 
-    public Integer getTotalScore() {
+    public Double getTotalScore() {
         return totalScore;
     }
 
-    public void setTotalScore(Integer totalScore) {
+    public void setTotalScore(Double totalScore) {
         this.totalScore = totalScore;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Long getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Long difficulty) {
+        this.difficulty = difficulty;
     }
 }
