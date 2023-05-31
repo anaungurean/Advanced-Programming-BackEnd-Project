@@ -6,8 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
-//        @Query("SELECT q FROM Quiz q WHERE q.userId = :userId")
-//        Quiz findByUserId(@Param("userId") Long userId);
+
 
  }
 

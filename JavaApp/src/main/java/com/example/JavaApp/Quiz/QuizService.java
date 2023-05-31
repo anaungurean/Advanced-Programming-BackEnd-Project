@@ -22,9 +22,6 @@ public class QuizService {
         return quizRepository.findById(id).orElse(null);
     }
 
-    public Quiz createQuiz(Quiz quiz) {
-        return quizRepository.save(quiz);
-    }
 
     public Quiz updateQuiz(Long id, Quiz quiz) {
         if (quizRepository.existsById(id)) {
@@ -42,7 +39,8 @@ public class QuizService {
         return false;
     }
 
-//    public Quiz getQuizByUserId(Long userId) {
-//        return quizRepository.findByUserId(userId);
-//    }
+
+    public void saveQuiz(Quiz newQuiz) {
+        quizRepository.save(newQuiz);
+    }
 }

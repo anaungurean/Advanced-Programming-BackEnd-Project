@@ -1,7 +1,10 @@
 package com.example.JavaApp.QuizQuestion;
 import com.example.JavaApp.Quiz.Quiz;
+import com.example.JavaApp.QuizAnswer.QuizAnswer;
+import com.example.JavaApp.QuizAnswer.QuizAnswerDTO;
 import jakarta.persistence.*;
 
+import java.util.List;
 
 @Entity
 @Table(name = "quiz_questions")
@@ -9,27 +12,41 @@ public class QuizQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
+    private Quiz quizId;
 
     @Column(name = "question_id")
-    private Long idQuestion;
+    private Long questionId;
 
-    @Column(name = "user_answer_id")
-    private Long idAnswer;
-    @Column
-    private int score;
+    @Column(name = "score")
+    private Long score;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quiz_question_id")
+    private List<QuizAnswer> quizAnswers;
 
     public QuizQuestion() {
     }
 
-    public QuizQuestion(Quiz quiz, Long idQuestion, Long idAnswer, int score) {
-        this.quiz = quiz;
-        this.idQuestion = idQuestion;
-        this.idAnswer = idAnswer;
+    public QuizQuestion(Long id, Quiz quizId, Long questionId , Long score) {
+        this.id = id;
+        this.quizId = quizId;
+        this.questionId = questionId;
         this.score = score;
+    }
+
+    public QuizQuestion(Quiz quizId, Long questionId, Long score) {
+        this.quizId = quizId;
+        this.questionId = questionId;
+        this.score = score;
+    }
+
+    public Quiz getQuizId() {
+        return quizId;
+    }
+
+    public void setQuizId(Quiz quizId) {
+        this.quizId = quizId;
     }
 
     public Long getId() {
@@ -40,35 +57,37 @@ public class QuizQuestion {
         this.id = id;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
+
+
+    public Long getQuestionId() {
+        return questionId;
     }
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
     }
 
-    public Long getIdQuestion() {
-        return idQuestion;
-    }
-
-    public void setIdQuestion(Long idQuestion) {
-        this.idQuestion = idQuestion;
-    }
-
-    public Long getIdAnswer() {
-        return idAnswer;
-    }
-
-    public void setIdAnswer(Long idAnswer) {
-        this.idAnswer = idAnswer;
-    }
-
-    public int getScore() {
+    public Long getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Long score) {
         this.score = score;
+    }
+    public List<QuizAnswer> getQuizAnswers() {
+        return quizAnswers;
+    }
+
+    public void setQuizAnswers(List<QuizAnswer> quizAnswers) {
+        this.quizAnswers = quizAnswers;
+    }
+    @Override
+    public String toString() {
+        return "QuizQuestion{" +
+                "id=" + id +
+                ", quizId=" + quizId +
+                ", questionId=" + questionId +
+                ", score=" + score +
+                '}';
     }
 }
