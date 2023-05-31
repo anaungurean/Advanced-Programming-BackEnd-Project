@@ -6,6 +6,7 @@ import com.example.JavaApp.QuizAnswer.QuizAnswer;
 import com.example.JavaApp.QuizAnswer.QuizAnswerDTO;
 import com.example.JavaApp.QuizQuestion.QuizQuestion;
 import com.example.JavaApp.QuizQuestion.QuizQuestionDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,32 +47,23 @@ public class QuizController {
             double score = quiz.getScore();
             List<QuestionWithGivenAnswers> questionWithAnswers = quiz.getQuestionWithAnswers();
 
-            QuizDTO newQuiz = new QuizDTO();
+            // Create a new Quiz object
+            Quiz newQuiz = new Quiz();
             newQuiz.setTotalScore((int) score);
 
-            List<QuizQuestionDTO> quizQuestions = new ArrayList<>();
+            // Create and set QuizQuestion objects for the Quiz
+            List<QuizQuestion> quizQuestions = new ArrayList<>();
             for (QuestionWithGivenAnswers question : questionWithAnswers) {
-                QuizQuestionDTO quizQuestion = new QuizQuestionDTO();
+                QuizQuestion quizQuestion = new QuizQuestion();
                 quizQuestion.setQuestionId(question.getQuestion().getId());
                 quizQuestion.setScore(question.getScore());
-                quizQuestion.setQuizId(newQuiz.getId());
+                quizQuestion.setQuizId(newQuiz);
                 quizQuestions.add(quizQuestion);
-
-                List<QuizAnswerDTO> quizAnswers = new ArrayList<>();
-                for (QuizAnswerDTO answer : question.getAnswers()) {
-                    answer.setId(quizQuestion.getQuestionId());
-                    quizAnswers.add(answer);
-                }
-                quizQuestion.setQuizAnswers(quizAnswers);
             }
-
-            System.out.println(quizQuestions);
-
             newQuiz.setQuizQuestions(quizQuestions);
 
-
-            Quiz quizMap = new Quiz(newQuiz.getId(), newQuiz.getUserId(), newQuiz.getTotalScore());
-            quizService.saveQuiz(quizMap);
+            quizService.saveQuiz(newQuiz);
+            // Save the Quiz object to the database (using your data access mechanism)
 
             return new ResponseEntity<>("Quiz created successfully!", HttpStatus.CREATED);
         } catch (Exception e) {
