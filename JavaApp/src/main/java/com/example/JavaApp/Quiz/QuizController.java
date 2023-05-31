@@ -33,15 +33,6 @@ public class QuizController {
         return new ResponseEntity<>(quizzes, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
-        Quiz quiz = quizService.getQuizById(id);
-        if (quiz == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(quiz, HttpStatus.OK);
-    }
-
     @PostMapping("/quizzes/{userId}")
     public ResponseEntity<String> createQuiz(@PathVariable Long userId, @RequestBody QuizCreationDTO quiz) {
         try {
@@ -82,6 +73,15 @@ public class QuizController {
         }
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<QuizShowDTO>> getQuizzesByUserId(@PathVariable Long userId) {
+        try {
+            List<QuizShowDTO> quizDTOs = quizService.getQuizzesByUserId(userId);
+            return ResponseEntity.ok(quizDTOs);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) {
@@ -91,15 +91,6 @@ public class QuizController {
         }
         return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
     }
-//    @GetMapping("/{userId}")
-//    public ResponseEntity<Quiz> getQuizDetails(@PathVariable Long userId) {
-//        Quiz quiz = quizService.getQuizByUserId(userId);
-//        if (quiz == null) {
-//            // Return an appropriate response when quiz is not found for the user ID
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(quiz);
-//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {

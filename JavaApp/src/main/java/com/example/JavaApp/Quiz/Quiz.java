@@ -16,8 +16,6 @@ public class Quiz {
 
     @Column(name = "total_score")
     private Double totalScore;
-
-
     @Column(name = "subject_id")
     private Long subjectId;
     @Column(name = "difficulty")
