@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/quizzes")
+@CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
 
     private final QuizService quizService;
@@ -41,13 +42,14 @@ public class QuizController {
         return new ResponseEntity<>(quiz, HttpStatus.OK);
     }
 
-    @PostMapping("/quizzes")
-    public ResponseEntity<String> createQuiz(@RequestBody QuizCreationDTO quiz) {
+    @PostMapping("/quizzes/{userId}")
+    public ResponseEntity<String> createQuiz(@PathVariable Long userId, @RequestBody QuizCreationDTO quiz) {
         try {
             double score = quiz.getScore();
             List<QuestionWithGivenAnswers> questionWithAnswers = quiz.getQuestionWithAnswers();
 
             Quiz newQuiz = new Quiz();
+            newQuiz.setUserId(userId);
             newQuiz.setTotalScore((double) score);
             newQuiz.setDifficulty(quiz.getDifficult());
             newQuiz.setSubjectId(quiz.getIdSubject());
@@ -60,10 +62,9 @@ public class QuizController {
                 quizQuestion.setQuizId(newQuiz);
                 quizQuestions.add(quizQuestion);
 
-                List<QuizAnswer> quizAnswers = new ArrayList<>(); // Create a list of QuizAnswer objects
+                List<QuizAnswer> quizAnswers = new ArrayList<>();
                 for (QuizAnswerDTO answer : question.getAnswers()) {
                     QuizAnswer quizAnswer = new QuizAnswer();
-//                    quizAnswer.setQuizQuestion(quizQuestion);
                     quizAnswer.setAnswerId(answer.getIdAnswer());
                     quizAnswers.add(quizAnswer);
                 }
