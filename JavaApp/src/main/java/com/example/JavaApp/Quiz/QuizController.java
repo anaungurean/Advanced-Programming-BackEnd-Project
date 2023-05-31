@@ -47,11 +47,9 @@ public class QuizController {
             double score = quiz.getScore();
             List<QuestionWithGivenAnswers> questionWithAnswers = quiz.getQuestionWithAnswers();
 
-            // Create a new Quiz object
             Quiz newQuiz = new Quiz();
             newQuiz.setTotalScore((int) score);
 
-            // Create and set QuizQuestion objects for the Quiz
             List<QuizQuestion> quizQuestions = new ArrayList<>();
             for (QuestionWithGivenAnswers question : questionWithAnswers) {
                 QuizQuestion quizQuestion = new QuizQuestion();
@@ -59,17 +57,26 @@ public class QuizController {
                 quizQuestion.setScore(question.getScore());
                 quizQuestion.setQuizId(newQuiz);
                 quizQuestions.add(quizQuestion);
+
+                List<QuizAnswer> quizAnswers = new ArrayList<>(); // Create a list of QuizAnswer objects
+                for (QuizAnswerDTO answer : question.getAnswers()) {
+                    QuizAnswer quizAnswer = new QuizAnswer();
+                    quizAnswer.setQuizQuestion(quizQuestion);
+                    quizAnswer.setAnswerId(answer.getId());
+                    quizAnswers.add(quizAnswer);
+                }
+                quizQuestion.setQuizAnswers(quizAnswers);
             }
             newQuiz.setQuizQuestions(quizQuestions);
 
             quizService.saveQuiz(newQuiz);
-            // Save the Quiz object to the database (using your data access mechanism)
 
             return new ResponseEntity<>("Quiz created successfully!", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Error creating quiz: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) {

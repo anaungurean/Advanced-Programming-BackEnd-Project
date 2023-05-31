@@ -1,11 +1,7 @@
 package com.example.JavaApp.QuizAnswer;
 
-import com.example.JavaApp.Answer.Answer;
-import com.example.JavaApp.Quiz.Quiz;
 import com.example.JavaApp.QuizQuestion.QuizQuestion;
 import jakarta.persistence.*;
-
-
 
 @Entity
 @Table(name = "quiz_answers")
@@ -57,5 +53,9 @@ public class QuizAnswer {
 
     public void setAnswerId(Long answerId) {
         this.answerId = answerId;
+    }
+
+    public Long getQuizQuestionId() {
+        return quizQuestion.getId();
     }
 }
