@@ -1,7 +1,9 @@
 package com.example.JavaApp.Quiz;
 
-import com.example.JavaApp.Question.QuestionWithAnswers;
-import com.example.JavaApp.Question.QuestionWithGivenAnswers;
+import com.example.JavaApp.Answer.Answer;
+import com.example.JavaApp.Answer.AnswerDTO;
+import com.example.JavaApp.Answer.AnswerService;
+import com.example.JavaApp.Question.*;
 import com.example.JavaApp.QuizAnswer.QuizAnswer;
 import com.example.JavaApp.QuizAnswer.QuizAnswerDTO;
 import com.example.JavaApp.QuizQuestion.QuizQuestion;
@@ -13,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/quizzes")
@@ -21,6 +25,10 @@ import java.util.List;
 public class QuizController {
 
     private final QuizService quizService;
+    @Autowired
+    private QuestionService questionService;
+    @Autowired
+    private AnswerService answerService;
 
     @Autowired
     public QuizController(QuizService quizService) {
@@ -31,6 +39,80 @@ public class QuizController {
     public ResponseEntity<List<Quiz>> getAllQuizzes() {
         List<Quiz> quizzes = quizService.getAllQuizzes();
         return new ResponseEntity<>(quizzes, HttpStatus.OK);
+    }
+
+    @GetMapping("/{quizId}/with-questions-answers")
+    public ResponseEntity<Map<String, Object>> getQuestionsAndAnswersAfterId(@PathVariable Long quizId, @RequestParam(required = false) Long questionId) {
+        try {
+            Quiz quiz = quizService.getQuizById(quizId);
+
+            if (quiz == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            List<QuestionWithAnswers> questionWithAnswersList = new ArrayList<>();
+            double finalScore = quiz.getTotalScore();
+
+            List<QuizQuestion> quizQuestions = quiz.getQuizQuestions();
+            boolean foundStartQuestion = questionId == null;
+
+            for (QuizQuestion quizQuestion : quizQuestions) {
+                Long currentQuestionId = quizQuestion.getQuestionId();
+
+                if (!foundStartQuestion) {
+                    if (currentQuestionId.equals(questionId)) {
+                        foundStartQuestion = true;
+                    }
+                    continue;
+                }
+
+                Double score = quizQuestion.getScore();
+                Question question = questionService.getQuestionById(currentQuestionId);
+
+                if (question != null) {
+                    List<Answer> answers = answerService.getAnswersByQuestionId(currentQuestionId);
+                    List<AnswerDTO> answerDTOs = new ArrayList<>();
+                    boolean chosen = false;
+
+                    for (Answer answer : answers) {
+                        AnswerDTO answerDTO = new AnswerDTO();
+                        answerDTO.setId(answer.getId());
+                        answerDTO.setAnswerText(answer.getAnswerText());
+                        answerDTO.setCorrect(answer.isCorrect());
+
+                        // Check if the answer ID exists in QuizAnswer for the current quiz question
+                        if (isAnswerSelected(quizQuestion, answer.getId())) {
+                            chosen = true;
+                        }
+                        answerDTO.setChosen(chosen);
+
+                        // Set other properties of AnswerDTO if needed
+                        answerDTOs.add(answerDTO);
+                    }
+
+                    QuestionWithAnswers questionWithAnswers = new QuestionWithAnswers(question, answerDTOs, score);
+                    questionWithAnswersList.add(questionWithAnswers);
+                }
+            }
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("questionWithAnswersList", questionWithAnswersList);
+            result.put("finalScore", finalScore);
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private boolean isAnswerSelected(QuizQuestion quizQuestion, Long answerId) {
+        List<QuizAnswer> quizAnswers = quizQuestion.getQuizAnswers();
+        for (QuizAnswer quizAnswer : quizAnswers) {
+            if (quizAnswer.getAnswerId().equals(answerId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @PostMapping("/quizzes/{userId}")

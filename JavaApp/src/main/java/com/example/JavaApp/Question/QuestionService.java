@@ -34,5 +34,9 @@ public class QuestionService {
         return questions.subList(0, numQuestionsToRetrieve);
     }
 
+    public Question getQuestionById(Long questionId) {
+        return questionRepository.findById(questionId)
+                .orElseThrow(() -> new IllegalArgumentException("Question not found"));
+    }
 }
 
