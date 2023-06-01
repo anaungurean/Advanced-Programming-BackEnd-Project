@@ -10,7 +10,7 @@ public class QuestionWithAnswers {
     private Question question;
     private List<AnswerDTO> answers;
 
-    private Long score;
+    private Double score;
 
     public QuestionWithAnswers() {
     }
@@ -20,7 +20,7 @@ public class QuestionWithAnswers {
         this.answers = answers;
     }
 
-    public QuestionWithAnswers(Question question, List<AnswerDTO> answers, Long score) {
+    public QuestionWithAnswers(Question question, List<AnswerDTO> answers, Double score) {
         this.question = question;
         this.answers = answers;
         this.score = score;
@@ -42,11 +42,11 @@ public class QuestionWithAnswers {
         this.answers = answers;
     }
 
-    public Long getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(Long score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 }

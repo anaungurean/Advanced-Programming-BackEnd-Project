@@ -1,4 +1,5 @@
 package com.example.JavaApp.QuizQuestion;
+import com.example.JavaApp.Question.Question;
 import com.example.JavaApp.Quiz.Quiz;
 import com.example.JavaApp.QuizAnswer.QuizAnswer;
 import com.example.JavaApp.QuizAnswer.QuizAnswerDTO;
@@ -56,8 +57,6 @@ public class QuizQuestion {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
     public Long getQuestionId() {
         return questionId;

@@ -1,4 +1,5 @@
 package com.example.JavaApp.Quiz;
+import com.example.JavaApp.Question.Question;
 import com.example.JavaApp.Subject.Subject;
 import com.example.JavaApp.Subject.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;

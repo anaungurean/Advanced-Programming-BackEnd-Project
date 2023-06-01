@@ -14,6 +14,15 @@ public class AnswerDTO {
         this.chosen = chosen;
     }
 
+    public AnswerDTO() {
+    }
+
+    public AnswerDTO(String answerText, boolean correct, boolean chosen) {
+        this.answerText = answerText;
+        this.correct = correct;
+        this.chosen = chosen;
+    }
+
     public Long getId() {
         return id;
     }
@@ -28,5 +37,21 @@ public class AnswerDTO {
 
     public boolean isChosen() {
         return chosen;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
+    }
+
+    public void setCorrect(boolean correct) {
+        this.correct = correct;
+    }
+
+    public void setChosen(boolean chosen) {
+        this.chosen = chosen;
     }
 }
