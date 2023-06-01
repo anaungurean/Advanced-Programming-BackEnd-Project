@@ -5,7 +5,9 @@ import com.example.JavaApp.Subject.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -74,5 +76,40 @@ public class QuizService {
         return quizDTOs;
     }
 
+    public List<QuizClasamentDTO> getQuizClasamentByUserId(Long userId) {
+        List<Object[]> results = quizRepository.getQuizClasamentByUserId(userId);
+        List<QuizClasamentDTO> dtos = new ArrayList<>();
+
+         for (Object[] result : results) {
+
+
+            QuizClasamentDTO dto = new QuizClasamentDTO();
+             System.out.println(result[0]);
+             System.out.println(result[1]);
+             System.out.println(result[2]);
+             System.out.println(result[3]);
+             System.out.println(result[4]);
+             System.out.println(result[5]);
+             System.out.println(result[6]);
+
+             dto.setId((Float) result[0]);
+             dto.setTitle((String) result[1]);
+
+//             dto.setAverageScore((Float) result[2]);
+
+             dto.setTotalQuizzes((Integer) result[3]);
+
+            dto.setQuizzesDifficulty1((Integer) result[4]);
+
+            dto.setQuizzesDifficulty2((Integer) result[5]);
+
+            dto.setQuizzesDifficulty3((Integer) result[6]);
+
+            System.out.println(dto);
+            dtos.add(dto);
+
+        }
+        return dtos;
+    }
 }
 

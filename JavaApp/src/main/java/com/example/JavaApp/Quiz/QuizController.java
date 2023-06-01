@@ -8,6 +8,7 @@ import com.example.JavaApp.QuizAnswer.QuizAnswer;
 import com.example.JavaApp.QuizAnswer.QuizAnswerDTO;
 import com.example.JavaApp.QuizQuestion.QuizQuestion;
 import com.example.JavaApp.QuizQuestion.QuizQuestionDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -116,6 +117,7 @@ public class QuizController {
     }
 
     @PostMapping("/quizzes/{userId}")
+    @Operation(summary = "Store the given quiz by an user")
     public ResponseEntity<String> createQuiz(@PathVariable Long userId, @RequestBody QuizCreationDTO quiz) {
         try {
             double score = quiz.getScore();
@@ -156,6 +158,7 @@ public class QuizController {
     }
 
     @GetMapping("/{userId}")
+    @Operation(summary = "See the results of quizzes for an user" )
     public ResponseEntity<List<QuizShowDTO>> getQuizzesByUserId(@PathVariable Long userId) {
         try {
             List<QuizShowDTO> quizDTOs = quizService.getQuizzesByUserId(userId);
@@ -182,4 +185,19 @@ public class QuizController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/clasament/{userId}")
+    @Operation(summary = "See the ranking for an user" )
+    public ResponseEntity<List<QuizClasamentDTO>> getQuizClasamentByUserId(@PathVariable Long userId) {
+        try {
+            List<QuizClasamentDTO> clasamentDTOs = quizService.getQuizClasamentByUserId(userId);
+            return ResponseEntity.ok(clasamentDTOs);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+
 }
