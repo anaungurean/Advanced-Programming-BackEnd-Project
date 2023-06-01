@@ -20,8 +20,8 @@ public class Answer {
     @Column(name = "correct")
     private boolean correct;
 
-    @Column(name = "chosen")
-    private boolean chosen;
+//    @Column(name = "chosen")
+//    private boolean chosen;
 
     public Answer() {
     }
@@ -30,8 +30,7 @@ public class Answer {
         this.question = question;
         this.answerText = answerText;
         this.correct = correct;
-        this.chosen = chosen;
-    }
+     }
 
     public Long getId() {
         return id;
@@ -65,13 +64,7 @@ public class Answer {
         this.correct = correct;
     }
 
-    public boolean isChosen() {
-        return chosen;
-    }
 
-    public void setChosen(boolean chosen) {
-        this.chosen = chosen;
-    }
 
     @Override
     public String toString() {
@@ -80,7 +73,7 @@ public class Answer {
                 ", question=" + question +
                 ", answerText='" + answerText + '\'' +
                 ", correct=" + correct +
-                ", chosen=" + chosen +
+
                 '}';
     }
 }
