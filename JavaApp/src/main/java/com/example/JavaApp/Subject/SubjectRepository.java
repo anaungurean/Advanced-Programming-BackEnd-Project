@@ -10,8 +10,4 @@ import java.util.Optional;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject,Long> {
 
-
-    @Query(value = "SELECT COLUMN_VALUE AS title FROM TABLE(get_subject_titles())", nativeQuery = true)
-    List<Long> findSubjects(); //de eliminat
-
  }

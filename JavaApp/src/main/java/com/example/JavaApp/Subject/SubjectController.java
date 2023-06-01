@@ -21,12 +21,10 @@ public class SubjectController {
     }
     @GetMapping
     @Operation(summary = "List the subjects", description = "Used to list the subjects to select the subject for which will be taken the quiz")
-//    public List<Subject> getAllSubjects() {
-//          return subjectService.getAllSubjects();
-//    } // pt java
     public List<Subject> getAllSubjects() {
-        return subjectService.getAllSubjects();
-    } //de eliminat
+          return subjectService.getAllSubjects();
+    }
+
 
 
     @PostMapping("/create")

@@ -20,9 +20,8 @@ public class UserService {
         if (emailExists) {
             throw new IllegalArgumentException("Email already exists");
         }
-         //userRepository.save(user); //pentru java
-        userRepository.signUp(user.getLastName(), user.getFirstName(), email, user.getPassword()); //de elim
-    }
+         userRepository.save(user);
+     }
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -43,9 +42,5 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public int logIn(String email, String password) {
-         return  userRepository.signIn(email, password);
-        //de eliminat
 
-    }
 }

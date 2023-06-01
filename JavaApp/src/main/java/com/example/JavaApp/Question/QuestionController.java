@@ -1,6 +1,7 @@
 package com.example.JavaApp.Question;
 
 import com.example.JavaApp.Answer.Answer;
+import com.example.JavaApp.Answer.AnswerDTO;
 import com.example.JavaApp.Answer.AnswerService;
 import com.example.JavaApp.Subject.Subject;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,8 +57,18 @@ public class QuestionController {
             List<QuestionWithAnswers> questionsWithAnswers = new ArrayList<>();
             System.out.println(questions);
             for (Question question : questions) {
-                List<Answer> answers = answerService.getAnswersByQuestionId(question.getId());
-                QuestionWithAnswers questionWithAnswers = new QuestionWithAnswers(question, answers);
+                List<Answer> answersList = answerService.getAnswersByQuestionId(question.getId());
+                List<AnswerDTO> answersDto = answersList.stream().map(
+                        answerEntity -> {
+                            AnswerDTO answerDto = new AnswerDTO(answerEntity.getId(),
+                                    answerEntity.getAnswerText(),
+                                    answerEntity.isCorrect(),
+                                    false);
+                            return answerDto;
+                        }
+                ).toList();
+
+                QuestionWithAnswers questionWithAnswers = new QuestionWithAnswers(question, answersDto);
                 questionsWithAnswers.add(questionWithAnswers);
             }
 
