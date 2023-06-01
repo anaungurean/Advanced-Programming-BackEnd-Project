@@ -11,6 +11,7 @@ import java.util.List;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+
     @Autowired
     public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
@@ -26,21 +27,16 @@ public class QuestionService {
 
     public List<Question> getQuestionsByDifficultyAndSubjectId(Long difficulty, Long subjectId) {
 
-        List<Long> questionData = questionRepository.findByQuestionDifficultyAndSubjectId(difficulty, subjectId);
-        List<Question> questions = new ArrayList<>();
+        List<Question> questions = questionRepository.findByQuestionDifficultyAndSubjectId(difficulty, subjectId);
+        Collections.shuffle(questions);
+        int totalQuestions = questions.size();
+        int numQuestionsToRetrieve = Math.min(10, totalQuestions);
+        return questions.subList(0, numQuestionsToRetrieve);
+    }
 
-        for (Long row : questionData) {
-            Question question = questionRepository.findById(row).orElse(null);
-            if (question != null) {
-                questions.add(question);
-            }
-        }
-        return questions; //de eliminat
+    public Question getQuestionById(Long questionId) {
+        return questionRepository.findById(questionId)
+                .orElseThrow(() -> new IllegalArgumentException("Question not found"));
     }
-//        List<Question> questions = questionRepository.findByQuestionDifficultyAndSubjectId(difficulty, subjectId);
-//        Collections.shuffle(questions);
-//        int totalQuestions = questions.size();
-//        int numQuestionsToRetrieve = Math.min(10, totalQuestions);
-//        return questions.subList(0, numQuestionsToRetrieve); pt java
-    }
+}
 

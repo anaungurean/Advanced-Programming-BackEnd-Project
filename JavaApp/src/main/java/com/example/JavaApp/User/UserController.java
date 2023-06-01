@@ -39,26 +39,31 @@ public class UserController {
     @Operation(summary = "Login a user", description = "Login a user to the system")
     public ResponseEntity<String> login(@RequestParam("email") String email, @RequestParam("password") String password) {
 
-//        User user = userService.getUserByEmail(email);
-//
-//        if (user == null) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email");
-//        }
-//
-//        if (!userService.verifyPassword(user, password)) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
-//        }
-//        return ResponseEntity.ok("Login successful"); PT JAVA
+        User user = userService.getUserByEmail(email);
 
-        int exists = userService.logIn(email,password);
-        System.out.println(exists);
-        if (exists == 0 ) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid info");
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email");
+        }
+
+        if (!userService.verifyPassword(user, password)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
         }
         return ResponseEntity.ok("Login successful");
 
+
+
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        User user = userService.getUserByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(user);
+    }
 
     @Operation(summary = "Get user by ID", description = "Retrieve a user by ID")
     @GetMapping("/{id}")
