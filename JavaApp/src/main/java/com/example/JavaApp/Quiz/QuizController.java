@@ -81,14 +81,12 @@ public class QuizController {
                         answerDTO.setAnswerText(answer.getAnswerText());
                         answerDTO.setCorrect(answer.isCorrect());
 
-                        // Check if the answer ID exists in QuizAnswer for the current quiz question
-                        if (isAnswerSelected(quizQuestion, answer.getId())) {
+                         if (isAnswerSelected(quizQuestion, answer.getId())) {
                             chosen = true;
                         }
                         answerDTO.setChosen(chosen);
 
-                        // Set other properties of AnswerDTO if needed
-                        answerDTOs.add(answerDTO);
+                         answerDTOs.add(answerDTO);
                     }
 
                     QuestionWithAnswers questionWithAnswers = new QuestionWithAnswers(question, answerDTOs, score);
@@ -196,8 +194,6 @@ public class QuizController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 
 
 }

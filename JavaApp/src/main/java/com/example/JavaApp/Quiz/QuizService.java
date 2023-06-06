@@ -2,6 +2,7 @@ package com.example.JavaApp.Quiz;
 import com.example.JavaApp.Question.Question;
 import com.example.JavaApp.Subject.Subject;
 import com.example.JavaApp.Subject.SubjectRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -84,18 +85,13 @@ public class QuizService {
 
 
             QuizClasamentDTO dto = new QuizClasamentDTO();
-             System.out.println(result[0]);
-             System.out.println(result[1]);
+
              System.out.println(result[2]);
-             System.out.println(result[3]);
-             System.out.println(result[4]);
-             System.out.println(result[5]);
-             System.out.println(result[6]);
+             System.out.println(result[2].getClass().getName());
 
              dto.setId((Float) result[0]);
              dto.setTitle((String) result[1]);
-
-//             dto.setAverageScore((Float) result[2]);
+              dto.setAverageScore((Integer) result[2]);
 
              dto.setTotalQuizzes((Integer) result[3]);
 
@@ -111,5 +107,17 @@ public class QuizService {
         }
         return dtos;
     }
+
+    public Integer getAverageScore(Long userId, Long subjectId) {
+
+        Integer score = quizRepository.gerAverageScore(subjectId, userId);
+        return score;
+
+    }
+
+
+
+
+
 }
 
