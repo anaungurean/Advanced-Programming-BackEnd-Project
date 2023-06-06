@@ -10,7 +10,7 @@ import java.util.Objects;
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<Quiz> findByUserId(Long userId);
-     @Query(value = "SELECT s.id, s.title, COALESCE(AVG(COALESCE(q.total_score, 0)), 0) AS average_score, " +
+     @Query(value = "SELECT s.id, s.title, NVL(AVG(NVL(q.total_score, 0)), 0) AS average_score, " +
             "COUNT(q.id) AS total_quizzes, COUNT(CASE WHEN q.difficulty = 1 THEN q.id END) AS quizzes_difficulty_1, " +
             "COUNT(CASE WHEN q.difficulty = 2 THEN q.id END) AS quizzes_difficulty_2, " +
             "COUNT(CASE WHEN q.difficulty = 3 THEN q.id END) AS quizzes_difficulty_3 " +
@@ -20,9 +20,12 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             "ORDER BY average_score DESC, s.id ASC", nativeQuery = true)
     List<Object[]> getQuizClasamentByUserId(@Param("userId") Long userId);
 
+    @Query(value = "SELECT NVL(AVG(NVL(q.total_score, 0)), 0) AS average_score " +
+            "FROM quizzes q " +
+            "WHERE q.subject_id = :subjectId AND q.user_id = :userId", nativeQuery = true)
+   Integer gerAverageScore(@Param("subjectId") Long subjectId, @Param("userId") Long userId);
 
 
- 
 
 }
 

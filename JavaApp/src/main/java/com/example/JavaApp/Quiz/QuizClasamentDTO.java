@@ -7,7 +7,7 @@ public class QuizClasamentDTO {
 
     private Float id;
     private String title;
-    private Float averageScore;
+    private Integer averageScore;
     private Integer totalQuizzes;
     private Integer quizzesDifficulty1;
     private Integer quizzesDifficulty2;
@@ -32,11 +32,11 @@ public class QuizClasamentDTO {
         this.title = title;
     }
 
-    public Float getAverageScore() {
+    public Integer getAverageScore() {
         return averageScore;
     }
 
-    public void setAverageScore(Float averageScore) {
+    public void setAverageScore(Integer averageScore) {
         this.averageScore = averageScore;
     }
 
